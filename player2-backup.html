@@ -1,0 +1,234 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRISPR WHISPR - Terminal 02</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;600;700&family=Special+Elite&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background: #171b18;
+      color: #d6cfbc;
+      font-family: "Special Elite", monospace;
+      padding: 30px 15px;
+    }
+
+    .terminal {
+      max-width: 650px;
+      margin: auto;
+      background: #303830;
+      border: 2px solid #777d70;
+      padding: 25px;
+    }
+
+    .topline {
+      font-size: 12px;
+      letter-spacing: 2px;
+      color: #aaa99b;
+    }
+
+    h1 {
+      font-family: "Antonio", sans-serif;
+      font-size: 48px;
+      letter-spacing: 5px;
+      margin: 20px 0 5px;
+    }
+
+    h2 {
+      font-family: "Antonio", sans-serif;
+      letter-spacing: 3px;
+      font-size: 23px;
+    }
+
+    .file {
+      background: #c5bda9;
+      color: #34342e;
+      padding: 25px;
+      margin-top: 20px;
+    }
+
+    .stamp {
+      color: #a22d21;
+      border: 2px solid #a22d21;
+      display: inline-block;
+      padding: 8px;
+      transform: rotate(-5deg);
+      font-family: "Antonio", sans-serif;
+      letter-spacing: 3px;
+    }
+
+    input {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 15px;
+      font-size: 25px;
+      font-family: "Special Elite", monospace;
+      background: #e1d9c6;
+      border: 1px solid #777366;
+      text-transform: uppercase;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      margin-top: 12px;
+      background: #343d36;
+      color: #e5ddc8;
+      border: 1px solid #777d70;
+      font-family: "Antonio", sans-serif;
+      font-size: 20px;
+      letter-spacing: 3px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #a22d21;
+    }
+
+    .preview {
+      margin-top: 20px;
+      padding: 20px;
+      min-height: 150px;
+      background: #d8d0bc;
+      border: 1px dashed #777366;
+      text-align: center;
+    }
+
+    #featureImage {
+      display: none;
+      max-width: 100%;
+      max-height: 250px;
+      margin: 15px auto;
+      object-fit: contain;
+    }
+
+    .warning {
+      color: #a22d21;
+      font-size: 12px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="terminal">
+
+    <div class="topline">
+      CRISPR WHISPR
+      <p>TERMINAL 02 // GENETICIST ACCESS</p>
+    </div>
+
+    <h1>DECODER</h1>
+    <p>GENETIC RECONSTRUCTION DIVISION</p>
+
+    <div class="file">
+      <div class="stamp">RESTRICTED</div>
+
+      <h2>GENETIC SEQUENCE DECODER</h2>
+
+      <p>
+        Enter a classified genetic sequence to
+        retrieve its corresponding physical trait.
+      </p>
+
+      <input
+        id="geneInput"
+        type="text"
+        placeholder="EX: OC-02"
+        maxlength="5"
+      >
+
+      <button onclick="decodeGene()">
+        ANALYZE SEQUENCE
+      </button>
+
+      <div class="preview">
+        <p id="featureText">AWAITING GENETIC INPUT...</p>
+        <img id="featureImage" alt="Genetic feature preview">
+      </div>
+
+      <p class="warning">
+        WARNING: UNAUTHORIZED GENETIC RECONSTRUCTION
+        IS STRICTLY PROHIBITED.
+      </p>
+    </div>
+
+  </div>
+
+  <script>
+    const genes = {
+      "KR-01": "Black hair",
+      "KR-02": "Brown hair",
+      "KR-03": "Blonde hair",
+      "KR-04": "White hair",
+      "KR-05": "Blood-red hair",
+      "KR-06": "Patchy or missing hair",
+      "KR-07": "Gray streaks",
+
+      "OC-01": "Brown eyes",
+      "OC-02": "Blue eyes",
+      "OC-03": "Green eyes",
+      "OC-04": "Red eyes",
+      "OC-05": "Completely black eyes",
+      "OC-06": "Milky white eyes",
+      "OC-07": "Two different eye colors",
+
+      "SK-01": "Light skin",
+      "SK-02": "Medium skin",
+      "SK-03": "Deep skin",
+      "SK-04": "Unnatural gray skin",
+      "SK-05": "Translucent pale skin",
+      "SK-06": "Blue-tinted skin",
+      "SK-07": "Cracked porcelain skin",
+
+      "FR-01": "No facial hair",
+      "FR-02": "Mustache",
+      "FR-03": "Beard",
+      "FR-04": "Patchy facial hair",
+      "FR-05": "Extremely long beard",
+      "FR-06": "White facial hair",
+      "FR-07": "Asymmetrical facial hair",
+
+      "MT-01": "Normal teeth",
+      "MT-02": "Front tooth gap",
+      "MT-03": "Vampire fangs",
+      "MT-04": "Sharp teeth",
+      "MT-05": "Black teeth",
+      "MT-06": "Unnaturally wide smile",
+      "MT-07": "Multiple rows of teeth"
+    };
+
+    function decodeGene() {
+      const code = document.getElementById("geneInput")
+        .value.trim().toUpperCase();
+
+      const featureText = document.getElementById("featureText");
+      const featureImage = document.getElementById("featureImage");
+
+      featureImage.style.display = "none";
+      featureImage.removeAttribute("src");
+
+  if (genes[code]) {
+  featureText.textContent = "SEQUENCE IDENTIFIED: " + code;
+
+  featureImage.src = "features/" + code + ".jpeg";
+  featureImage.style.display = "block";
+
+  featureImage.onerror = function() {
+    featureImage.style.display = "none";
+    featureText.textContent =
+      "FEATURE IMAGE NOT YET AVAILABLE: " + code;
+  };
+
+} else {
+  featureText.textContent =
+    "ERROR: GENETIC SEQUENCE NOT RECOGNIZED.";
+}
+    
+    }
+  </script>
+</body>
+</html>

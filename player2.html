@@ -1,0 +1,382 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRISPR WHISPR - Decoder</title>
+
+  <style>
+    :root {
+      --black: #1A1D1A;
+      --red: #BF211E;
+      --cream: #E0E2DB;
+      --gold: #9F7833;
+      --blue: #3E505B;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #101310;
+      color: var(--cream);
+      font-family: "Courier New", monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 25px;
+    }
+
+    .terminal {
+      width: 100%;
+      max-width: 760px;
+      background: var(--black);
+      border: 2px solid var(--blue);
+      padding: 30px;
+      box-shadow: 0 0 45px rgba(0,0,0,0.8);
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--blue);
+      padding-bottom: 15px;
+    }
+
+    .game-name {
+      color: var(--gold);
+      font-size: 14px;
+      font-weight: bold;
+      letter-spacing: 4px;
+      margin: 0;
+    }
+
+    .recording {
+      color: var(--red);
+      font-size: 12px;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    h1 {
+      color: var(--cream);
+      font-size: clamp(34px, 7vw, 58px);
+      letter-spacing: 7px;
+      margin: 25px 0 8px;
+    }
+
+    .subtitle {
+      color: #AAB5BB;
+      font-size: 12px;
+      letter-spacing: 2px;
+      margin-bottom: 30px;
+    }
+
+    .control-panel {
+      background: var(--blue);
+      padding: 22px;
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+
+    input {
+      width: 100%;
+      background: var(--cream);
+      color: var(--black);
+      border: 2px solid var(--gold);
+      padding: 15px;
+      font-family: inherit;
+      font-size: 24px;
+      text-align: center;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      margin-top: 14px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      cursor: pointer;
+    }
+
+    .analyze {
+      background: var(--gold);
+      color: var(--black);
+      border: 2px solid var(--gold);
+    }
+
+    .analyze:hover {
+      background: #BE964F;
+    }
+
+    .retry {
+      background: transparent;
+      color: var(--cream);
+      border: 1px solid var(--gold);
+    }
+
+    .retry:hover {
+      background: #33382F;
+    }
+
+    .archive {
+      border: 1px solid var(--blue);
+      padding: 18px;
+    }
+
+    .archive-heading {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 11px;
+      letter-spacing: 1px;
+      margin-bottom: 15px;
+    }
+
+    .archive-heading span:last-child {
+      color: var(--red);
+    }
+
+    .screen {
+      position: relative;
+      overflow: hidden;
+      min-height: 250px;
+      background: #27302C;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 5px solid #101310;
+      text-align: center;
+    }
+
+    /* Subtle VHS scanlines */
+    .screen::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 3px,
+        rgba(0,0,0,0.15) 4px
+      );
+    }
+
+    .placeholder {
+      padding: 25px;
+      color: #BBC3B5;
+      font-size: 13px;
+      letter-spacing: 2px;
+      line-height: 2;
+    }
+
+    #featureImage {
+      display: none;
+      width: 100%;
+      max-height: 350px;
+      object-fit: contain;
+      filter: grayscale(35%) contrast(110%) brightness(85%);
+    }
+
+    #featureText {
+      color: var(--gold);
+      font-size: 13px;
+      margin-top: 15px;
+      min-height: 20px;
+      letter-spacing: 1px;
+    }
+
+    .footer {
+      color: #858F8A;
+      font-size: 10px;
+      letter-spacing: 1px;
+      margin-top: 25px;
+      text-align: center;
+    }
+
+    @media (max-width: 500px) {
+      .terminal { padding: 18px; }
+      .control-panel { padding: 15px; }
+      .screen { min-height: 190px; }
+      input { font-size: 19px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="terminal">
+
+    <div class="top-bar">
+      <p class="game-name">CRISPR WHISPR</p>
+      <span class="recording">● REC</span>
+    </div>
+
+    <h1>DECODER</h1>
+    <p class="subtitle">TERMINAL 02 // GENETIC SEQUENCE ANALYSIS</p>
+
+    <section class="control-panel">
+      <label for="geneInput">ENTER GENE REPAIR SEQUENCE</label>
+
+      <input
+        id="geneInput"
+        type="text"
+        placeholder="ATG-CCT"
+        maxlength="7"
+        autocomplete="off"
+        spellcheck="false"
+      >
+
+      <button class="analyze" onclick="decodeGene()">
+        ANALYZE SEQUENCE
+      </button>
+    </section>
+
+    <section class="archive">
+      <div class="archive-heading">
+        <span>ARCHIVED PHENOTYPE RECORD</span>
+        <span>VHS // 001</span>
+      </div>
+
+      <div class="screen">
+        <div class="placeholder" id="placeholder">
+          [ NO RECORD LOADED ]<br>
+          AWAITING SEQUENCE INPUT...
+        </div>
+
+        <img id="featureImage" alt="Archived feature preview">
+      </div>
+
+      <p id="featureText">SYSTEM READY</p>
+    </section>
+
+    <button class="retry" onclick="resetDecoder()">
+      ↻ TRY ANOTHER SEQUENCE
+    </button>
+
+    <p class="footer">
+      CRISPR WHISPR // GENETIC ARCHIVE SYSTEM
+    </p>
+
+  </main>
+
+  <script>
+    // Each code corresponds to a repaired physical feature.
+    const genes = {
+      "ATG-CCT": "Brown eyes",
+      "GCA-TTG": "Blue eyes",
+      "TAC-GGA": "Green eyes",
+      "CGA-ATT": "Brown hair",
+      "TGC-AAC": "Black hair",
+      "AAC-GCT": "Blonde hair",
+      "GGT-CAA": "Medium skin tone",
+      "CTA-GGC": "Light skin tone",
+      "AGC-TTA": "Deep skin tone",
+      "TTA-CGG": "Normal teeth",
+      "GAC-TCT": "Normal smile",
+      "CGT-AAG": "Normal closed mouth"
+    };
+
+    const extensions = ["jpeg", "jpg", "png", "webp"];
+
+    const input = document.getElementById("geneInput");
+    const image = document.getElementById("featureImage");
+    const placeholder = document.getElementById("placeholder");
+    const result = document.getElementById("featureText");
+
+    let lookupVersion = 0;
+
+    function decodeGene() {
+      const code = input.value.trim().toUpperCase();
+      lookupVersion++;
+      const currentLookup = lookupVersion;
+
+      image.style.display = "none";
+      image.removeAttribute("src");
+      image.onload = null;
+      image.onerror = null;
+      placeholder.style.display = "block";
+
+      if (!Object.prototype.hasOwnProperty.call(genes, code)) {
+        placeholder.innerHTML =
+          "[ UNKNOWN SEQUENCE ]<br>NO MATCHING ARCHIVE RECORD";
+        result.textContent = "SEQUENCE NOT RECOGNIZED";
+        result.style.color = "#BF211E";
+        return;
+      }
+
+      result.textContent = "SEQUENCE IDENTIFIED // LOADING ARCHIVE...";
+      result.style.color = "#9F7833";
+      placeholder.innerHTML = "[ ACCESSING ARCHIVE... ]";
+
+      // Try the possible image formats automatically.
+      function tryImage(index) {
+        if (currentLookup !== lookupVersion) return;
+
+        if (index >= extensions.length) {
+          placeholder.style.display = "block";
+          placeholder.textContent =
+            "[ IMAGE PENDING ] — " + genes[code];
+          result.textContent = "FEATURE RECORD IDENTIFIED";
+          return;
+        }
+
+        const testImage = new Image();
+
+        testImage.onload = function () {
+          if (currentLookup !== lookupVersion) return;
+          image.src = testImage.src;
+          image.style.display = "block";
+          placeholder.style.display = "none";
+          result.textContent = "VISUAL RECORD RECOVERED";
+        };
+
+        testImage.onerror = function () {
+          tryImage(index + 1);
+        };
+
+        testImage.src = "features/" + code + "." + extensions[index];
+      }
+
+      tryImage(0);
+    }
+
+    function resetDecoder() {
+      lookupVersion++;
+      input.value = "";
+      image.style.display = "none";
+      image.removeAttribute("src");
+      placeholder.style.display = "block";
+      placeholder.innerHTML =
+        "[ NO RECORD LOADED ]<br>AWAITING SEQUENCE INPUT...";
+      result.textContent = "SYSTEM READY";
+      result.style.color = "#9F7833";
+      input.focus();
+    }
+
+    // Press Enter to analyze without clicking the button.
+    input.addEventListener("keydown", function (event) {
+      if (event.key === "Enter") {
+        decodeGene();
+      }
+    });
+  </script>
+
+</body>
+</html>
