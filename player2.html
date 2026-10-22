@@ -1,6 +1,89 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CRISPR WHISPR | Decoder</title><style>
-:root{--black:#141414;--red:#D92D0B;--gray:#A6ABA1;--ivory:#DADBD0;--shadow:#414743}*{box-sizing:border-box}body{margin:0;background:var(--black);background-image:radial-gradient(ellipse at top,#292c29,#141414 60%);color:var(--ivory);font-family:Arial,Helvetica,sans-serif;min-height:100vh}.terminal{max-width:850px;margin:auto;padding:26px 18px 65px}.top{display:flex;justify-content:space-between;gap:10px;align-items:center;border-bottom:1px solid var(--shadow);padding-bottom:13px}.brand{font-weight:900;letter-spacing:.26em;font-size:14px}.classified{font:700 11px monospace;color:var(--red);letter-spacing:.13em}.eyebrow{font:12px monospace;letter-spacing:.14em;color:var(--gray);margin:26px 0 7px}h1{font:900 clamp(58px,13vw,115px) Impact,'Arial Narrow',sans-serif;letter-spacing:.1em;margin:0}.sub{color:var(--gray);line-height:1.6;margin:0 0 25px}.panel{border:1px solid var(--shadow);background:#1b1d1b;padding:20px;margin-top:16px}.label{font:700 12px monospace;letter-spacing:.12em;color:var(--gray);margin-bottom:12px}input{width:100%;background:#101110;color:var(--ivory);border:1px solid #59605b;padding:16px;font:700 27px monospace;letter-spacing:.17em;outline:none;text-transform:uppercase}input:focus{border-color:var(--red)}.buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}button{padding:14px 18px;font-size:13px;letter-spacing:.07em;font-weight:900;cursor:pointer;border:1px solid var(--red)}.primary{background:var(--red);color:white}.primary:hover{background:#a52209}.secondary{background:transparent;color:var(--ivory);border-color:var(--shadow)}.secondary:hover{border-color:var(--gray)}.screen{position:relative;min-height:340px;background:#0c0e0d;border:1px solid var(--shadow);display:flex;align-items:center;justify-content:center;overflow:hidden}.screen:after{content:'';position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0,transparent 5px,rgba(0,0,0,.15) 6px)}.screen img{display:block;max-width:100%;width:100%;height:360px;object-fit:contain}.placeholder{text-align:center;padding:30px;font:14px monospace;color:var(--gray);line-height:1.9}.status{font:700 12px monospace;letter-spacing:.07em;min-height:23px;margin:14px 0 0;color:var(--gray)}.status.error{color:#ff735c}.status.success{color:#a9c1a2}.hidden{display:none!important}footer{margin-top:30px;text-align:center;color:#788078;font:10px monospace;letter-spacing:.12em}@media(max-width:600px){.terminal{padding:16px 12px 40px}.screen{min-height:260px}.screen img{height:290px}input{font-size:23px}}
-</style></head><body><main class="terminal"><header class="top"><span class="brand">CRISPR WHISPR</span><span class="classified">RESTRICTED ACCESS // 02</span></header><p class="eyebrow">TERMINAL 02 // GENETIC SEQUENCE ANALYSIS</p><h1>DECODER</h1><p class="sub">Consult your classified genetic index. Enter a candidate DNA sequence to retrieve its repaired-feature visual record.</p><section class="panel"><div class="label">GENETIC SEQUENCE INPUT</div><input id="geneInput" type="text" maxlength="7" autocomplete="off" spellcheck="false" placeholder="AAA-TTT" aria-label="DNA sequence"><div class="buttons"><button id="analyzeButton" class="primary">ANALYZE SEQUENCE</button><button id="resetButton" class="secondary">TRY ANOTHER SEQUENCE</button></div><p id="status" class="status" aria-live="polite">AWAITING SEQUENCE INPUT</p></section><section class="panel"><div class="label">RECOVERED VISUAL RECORD</div><div class="screen"><img id="featureImage" class="hidden" alt="Repaired genetic feature"><div id="placeholder" class="placeholder">[ NO VISUAL RECORD LOADED ]<br>ENTER A SEQUENCE TO BEGIN</div></div><p id="featureText" class="status">CLASSIFIED GENETIC ARCHIVE</p></section><footer>CRISPR WHISPR // EXPERIMENTAL GENETIC REPAIR SYSTEM</footer></main>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CRISPR WHISPR | Decoder</title>
+<style>
+:root{--black:#141414;--red:#D92D0B;--gray:#A6ABA1;--ivory:#DADBD0;--shadow:#414743}
+*{box-sizing:border-box}
+body{margin:0;background:var(--black);background-image:radial-gradient(ellipse at top,#292c29,#141414 60%);color:var(--ivory);font-family:Arial,Helvetica,sans-serif;min-height:100vh}
+.terminal{max-width:850px;margin:auto;padding:26px 18px 65px}
+.top{display:flex;justify-content:space-between;gap:10px;align-items:center;border-bottom:1px solid var(--shadow);padding-bottom:13px}
+.brand{font-weight:900;letter-spacing:.26em;font-size:14px}
+.classified{font:700 11px monospace;color:var(--red);letter-spacing:.13em}
+.eyebrow{font:12px monospace;letter-spacing:.14em;color:var(--gray);margin:26px 0 7px}
+h1{font:900 clamp(58px,13vw,115px) Impact,'Arial Narrow',sans-serif;letter-spacing:.1em;margin:0}
+.sub{color:var(--gray);line-height:1.6;margin:0 0 25px}
+.panel{border:1px solid var(--shadow);background:#1b1d1b;padding:20px;margin-top:16px}
+.label{font:700 12px monospace;letter-spacing:.12em;color:var(--gray);margin-bottom:12px}
+.rules-list{margin:0;padding-left:22px;line-height:1.65;color:var(--ivory)}
+.rules-list li{padding-left:5px;margin:0 0 10px}
+.rules-list li:last-child{margin-bottom:0}
+.rules-list strong{color:#fff}
+.goal{border-left:3px solid var(--red);padding:12px 14px;margin:17px 0 0;background:#151715;line-height:1.6}
+.goal strong{color:#fff}
+input{width:100%;background:#101110;color:var(--ivory);border:1px solid #59605b;padding:16px;font:700 27px monospace;letter-spacing:.17em;outline:none;text-transform:uppercase}
+input:focus{border-color:var(--red)}
+.buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+button{padding:14px 18px;font-size:13px;letter-spacing:.07em;font-weight:900;cursor:pointer;border:1px solid var(--red)}
+.primary{background:var(--red);color:white}
+.primary:hover{background:#a52209}
+.secondary{background:transparent;color:var(--ivory);border-color:var(--shadow)}
+.secondary:hover{border-color:var(--gray)}
+.screen{position:relative;min-height:340px;background:#0c0e0d;border:1px solid var(--shadow);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.screen:after{content:'';position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0,transparent 5px,rgba(0,0,0,.15) 6px)}
+.screen img{display:block;max-width:100%;width:100%;height:360px;object-fit:contain}
+.placeholder{text-align:center;padding:30px;font:14px monospace;color:var(--gray);line-height:1.9}
+.status{font:700 12px monospace;letter-spacing:.07em;min-height:23px;margin:14px 0 0;color:var(--gray)}
+.status.error{color:#ff735c}
+.status.success{color:#a9c1a2}
+.hidden{display:none!important}
+footer{margin-top:30px;text-align:center;color:#788078;font:10px monospace;letter-spacing:.12em}
+@media(max-width:600px){.terminal{padding:16px 12px 40px}.screen{min-height:260px}.screen img{height:290px}input{font-size:23px}.panel{padding:16px}}
+</style>
+</head>
+<body>
+<main class="terminal">
+<header class="top">
+<span class="brand">CRISPR WHISPR</span>
+<span class="classified">RESTRICTED ACCESS // 02</span>
+</header>
+<p class="eyebrow">TERMINAL 02 // GENETIC SEQUENCE ANALYSIS</p>
+<h1>DECODER</h1>
+<p class="sub">Consult your classified genetic index. Enter a candidate DNA sequence to retrieve its repaired feature visual record.</p>
+
+<section class="panel" aria-labelledby="rulesHeading">
+<div class="label" id="rulesHeading">DECODER RULES</div>
+<ol class="rules-list">
+<li><strong>Receive the gene codes.</strong> Your partner will tell you which gene traits need to be changed.</li>
+<li><strong>Enter the code.</strong> Type the gene code into the decoder to find the matching gene trait.</li>
+<li><strong>Identify the correct gene.</strong> Check the decoder to determine which gene trait corresponds to the code.</li>
+<li><strong>Communicate the code.</strong> Tell your partner the correct gene code so they can make the necessary changes.</li>
+</ol>
+<div class="goal"><strong>Your goal:</strong> Decode the gene codes accurately and help your partner make the correct changes!</div>
+</section>
+
+<section class="panel">
+<div class="label">GENETIC SEQUENCE INPUT</div>
+<input id="geneInput" type="text" maxlength="7" autocomplete="off" spellcheck="false" placeholder="AAA-TTT" aria-label="DNA sequence">
+<div class="buttons">
+<button id="analyzeButton" class="primary">ANALYZE SEQUENCE</button>
+<button id="resetButton" class="secondary">TRY ANOTHER SEQUENCE</button>
+</div>
+<p id="status" class="status" aria-live="polite">AWAITING SEQUENCE INPUT</p>
+</section>
+
+<section class="panel">
+<div class="label">RECOVERED VISUAL RECORD</div>
+<div class="screen">
+<img id="featureImage" class="hidden" alt="Repaired genetic feature">
+<div id="placeholder" class="placeholder">[ NO VISUAL RECORD LOADED ]<br>ENTER A SEQUENCE TO BEGIN</div>
+</div>
+<p id="featureText" class="status">CLASSIFIED GENETIC ARCHIVE</p>
+</section>
+<footer>CRISPR WHISPR // EXPERIMENTAL GENETIC REPAIR SYSTEM</footer>
+</main>
 <script>
 const genes={
 'ATG-CCT':'Brown eyes','GCA-TTG':'Blue eyes','TAC-GGA':'Green eyes',
@@ -8,12 +91,81 @@ const genes={
 'GGT-CAA':'Medium skin tone','CTA-GGC':'Light skin tone','AGC-TTA':'Deep skin tone',
 'TTA-CGG':'Normal teeth','GAC-TCT':'Normal smile','CGT-AAG':'Normal closed mouth'
 };
-const extensions=['jpeg','jpg','png','webp'];const $=id=>document.getElementById(id);let lookupVersion=0;
-function formatDNA(raw){const letters=String(raw).toUpperCase().replace(/[^ATGC]/g,'').slice(0,6);return letters.length>3?letters.slice(0,3)+'-'+letters.slice(3):letters;}
-$('geneInput').addEventListener('input',()=>{const el=$('geneInput'),pos=el.selectionStart,old=el.value,before=old.slice(0,pos).replace(/[^ATGCatgc]/g,'').length;el.value=formatDNA(old);el.setSelectionRange(Math.min(el.value.length,before+(before>3?1:0)),Math.min(el.value.length,before+(before>3?1:0)));});
-function status(text,kind=''){$('status').textContent=text;$('status').className='status '+kind;}
-function placeholder(text){$('featureImage').classList.add('hidden');$('featureImage').removeAttribute('src');$('placeholder').textContent=text;$('placeholder').classList.remove('hidden');}
-function resetDecoder(){lookupVersion++;$('geneInput').value='';placeholder('[ NO VISUAL RECORD LOADED ] — ENTER A SEQUENCE TO BEGIN');$('featureText').textContent='CLASSIFIED GENETIC ARCHIVE';status('AWAITING SEQUENCE INPUT');$('geneInput').focus();}
-function decodeGene(){const code=formatDNA($('geneInput').value);$('geneInput').value=code;const version=++lookupVersion;if(!Object.prototype.hasOwnProperty.call(genes,code)){placeholder('[ SEQUENCE NOT RECOGNIZED ]');$('featureText').textContent='NO MATCH FOUND';status('INVALID GENETIC SEQUENCE','error');return;}placeholder('[ SEARCHING VISUAL ARCHIVE ]');$('featureText').textContent='RETRIEVING FEATURE RECORD';status('SEQUENCE RECOGNIZED — SEARCHING ARCHIVE');let i=0;function tryNext(){if(version!==lookupVersion)return;if(i>=extensions.length){placeholder('[ IMAGE PENDING ] — '+genes[code]);$('featureText').textContent='FEATURE RECORD AWAITING PHOTOGRAPH';status('SEQUENCE RECOGNIZED — IMAGE PENDING','success');return;}const path='features/'+code+'.'+extensions[i++],probe=new Image();probe.onload=()=>{if(version!==lookupVersion)return;const display=$('featureImage');display.src=path;display.classList.remove('hidden');$('placeholder').classList.add('hidden');$('featureText').textContent='VISUAL RECORD RECOVERED';status('SEQUENCE CONFIRMED','success');};probe.onerror=tryNext;probe.src=path;}tryNext();}
-$('analyzeButton').addEventListener('click',decodeGene);$('resetButton').addEventListener('click',resetDecoder);$('geneInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();decodeGene();}});
-</script></body></html>
+const extensions=['jpeg','jpg','png','webp'];
+const $=id=>document.getElementById(id);
+let lookupVersion=0;
+function formatDNA(raw){
+  const letters=String(raw).toUpperCase().replace(/[^ATGC]/g,'').slice(0,6);
+  return letters.length>3?letters.slice(0,3)+'-'+letters.slice(3):letters;
+}
+$('geneInput').addEventListener('input',()=>{
+  const el=$('geneInput'),pos=el.selectionStart,old=el.value;
+  const before=old.slice(0,pos).replace(/[^ATGCatgc]/g,'').length;
+  el.value=formatDNA(old);
+  const newPos=Math.min(el.value.length,before+(before>3?1:0));
+  el.setSelectionRange(newPos,newPos);
+});
+function status(text,kind=''){
+  $('status').textContent=text;
+  $('status').className='status '+kind;
+}
+function placeholder(text){
+  $('featureImage').classList.add('hidden');
+  $('featureImage').removeAttribute('src');
+  $('placeholder').textContent=text;
+  $('placeholder').classList.remove('hidden');
+}
+function resetDecoder(){
+  lookupVersion++;
+  $('geneInput').value='';
+  placeholder('[ NO VISUAL RECORD LOADED ] — ENTER A SEQUENCE TO BEGIN');
+  $('featureText').textContent='CLASSIFIED GENETIC ARCHIVE';
+  status('AWAITING SEQUENCE INPUT');
+  $('geneInput').focus();
+}
+function decodeGene(){
+  const code=formatDNA($('geneInput').value);
+  $('geneInput').value=code;
+  const version=++lookupVersion;
+  if(!Object.prototype.hasOwnProperty.call(genes,code)){
+    placeholder('[ SEQUENCE NOT RECOGNIZED ]');
+    $('featureText').textContent='NO MATCH FOUND';
+    status('INVALID GENETIC SEQUENCE','error');
+    return;
+  }
+  placeholder('[ SEARCHING VISUAL ARCHIVE ]');
+  $('featureText').textContent='RETRIEVING FEATURE RECORD';
+  status('SEQUENCE RECOGNIZED — SEARCHING ARCHIVE');
+  let i=0;
+  function tryNext(){
+    if(version!==lookupVersion)return;
+    if(i>=extensions.length){
+      placeholder('[ IMAGE PENDING ] — '+genes[code]);
+      $('featureText').textContent='FEATURE RECORD AWAITING PHOTOGRAPH';
+      status('SEQUENCE RECOGNIZED — IMAGE PENDING','success');
+      return;
+    }
+    const path='features/'+code+'.'+extensions[i++];
+    const probe=new Image();
+    probe.onload=()=>{
+      if(version!==lookupVersion)return;
+      const display=$('featureImage');
+      display.src=path;
+      display.classList.remove('hidden');
+      $('placeholder').classList.add('hidden');
+      $('featureText').textContent='VISUAL RECORD RECOVERED';
+      status('SEQUENCE CONFIRMED','success');
+    };
+    probe.onerror=tryNext;
+    probe.src=path;
+  }
+  tryNext();
+}
+$('analyzeButton').addEventListener('click',decodeGene);
+$('resetButton').addEventListener('click',resetDecoder);
+$('geneInput').addEventListener('keydown',e=>{
+  if(e.key==='Enter'){e.preventDefault();decodeGene();}
+});
+</script>
+</body>
+</html>
