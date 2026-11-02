@@ -45,14 +45,10 @@ footer{margin-top:30px;text-align:center;color:#788078;font:10px monospace;lette
 </head>
 <body>
 <main class="terminal">
-<header class="top">
-<span class="brand">CRISPR WHISPR</span>
-<span class="classified">RESTRICTED ACCESS // 02</span>
-</header>
+<header class="top"><span class="brand">CRISPR WHISPR</span><span class="classified">RESTRICTED ACCESS // 02</span></header>
 <p class="eyebrow">TERMINAL 02 // GENETIC SEQUENCE ANALYSIS</p>
 <h1>DECODER</h1>
 <p class="sub">Consult your classified genetic index. Enter a candidate DNA sequence to retrieve its repaired feature visual record.</p>
-
 <section class="panel" aria-labelledby="rulesHeading">
 <div class="label" id="rulesHeading">DECODER RULES</div>
 <ol class="rules-list">
@@ -63,33 +59,33 @@ footer{margin-top:30px;text-align:center;color:#788078;font:10px monospace;lette
 </ol>
 <div class="goal"><strong>Your goal:</strong> Decode the gene codes accurately and help your partner make the correct changes!</div>
 </section>
-
 <section class="panel">
 <div class="label">GENETIC SEQUENCE INPUT</div>
 <input id="geneInput" type="text" maxlength="7" autocomplete="off" spellcheck="false" placeholder="AAA-TTT" aria-label="DNA sequence">
-<div class="buttons">
-<button id="analyzeButton" class="primary">ANALYZE SEQUENCE</button>
-<button id="resetButton" class="secondary">TRY ANOTHER SEQUENCE</button>
-</div>
+<div class="buttons"><button id="analyzeButton" class="primary">ANALYZE SEQUENCE</button><button id="resetButton" class="secondary">TRY ANOTHER SEQUENCE</button></div>
 <p id="status" class="status" aria-live="polite">AWAITING SEQUENCE INPUT</p>
 </section>
-
 <section class="panel">
 <div class="label">RECOVERED VISUAL RECORD</div>
-<div class="screen">
-<img id="featureImage" class="hidden" alt="Repaired genetic feature">
-<div id="placeholder" class="placeholder">[ NO VISUAL RECORD LOADED ]<br>ENTER A SEQUENCE TO BEGIN</div>
-</div>
+<div class="screen"><img id="featureImage" class="hidden" alt="Repaired genetic feature"><div id="placeholder" class="placeholder">[ NO VISUAL RECORD LOADED ]<br>ENTER A SEQUENCE TO BEGIN</div></div>
 <p id="featureText" class="status">CLASSIFIED GENETIC ARCHIVE</p>
 </section>
 <footer>CRISPR WHISPR // EXPERIMENTAL GENETIC REPAIR SYSTEM</footer>
 </main>
 <script>
+// These are the ten approved REPAIR codes. Feature images belong in features/.
+// Example: features/ATG-CCT.png for brown eyes.
 const genes={
-'ATG-CCT':'Brown eyes','GCA-TTG':'Blue eyes','TAC-GGA':'Green eyes',
-'CGA-ATT':'Brown hair','TGC-AAC':'Black hair','AAC-GCT':'Blonde hair',
-'GGT-CAA':'Medium skin tone','CTA-GGC':'Light skin tone','AGC-TTA':'Deep skin tone',
-'TTA-CGG':'Normal teeth','GAC-TCT':'Normal smile','CGT-AAG':'Normal closed mouth'
+  'ATG-CCT':'Brown eyes',
+  'GCA-TTG':'Blue eyes',
+  'TAC-GGA':'Green eyes',
+  'CGA-ATT':'Brown hair',
+  'TGC-AAC':'Black hair',
+  'AAC-GCT':'Blonde hair',
+  'GGT-CAA':'Medium skin tone',
+  'CTA-GGC':'Light skin tone',
+  'AGC-TTA':'Deep skin tone',
+  'GGG-TCT':'Restore Mouth Structure'
 };
 const extensions=['jpeg','jpg','png','webp'];
 const $=id=>document.getElementById(id);
@@ -105,10 +101,7 @@ $('geneInput').addEventListener('input',()=>{
   const newPos=Math.min(el.value.length,before+(before>3?1:0));
   el.setSelectionRange(newPos,newPos);
 });
-function status(text,kind=''){
-  $('status').textContent=text;
-  $('status').className='status '+kind;
-}
+function status(text,kind=''){$('status').textContent=text;$('status').className='status '+kind;}
 function placeholder(text){
   $('featureImage').classList.add('hidden');
   $('featureImage').removeAttribute('src');
@@ -163,9 +156,7 @@ function decodeGene(){
 }
 $('analyzeButton').addEventListener('click',decodeGene);
 $('resetButton').addEventListener('click',resetDecoder);
-$('geneInput').addEventListener('keydown',e=>{
-  if(e.key==='Enter'){e.preventDefault();decodeGene();}
-});
+$('geneInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();decodeGene();}});
 </script>
 </body>
 </html>
