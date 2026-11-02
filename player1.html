@@ -8,7 +8,7 @@
 </style>
 </head>
 <body><main class="terminal"><header class="top"><span class="brand">CRISPR WHISPR</span><span class="classified">RESTRICTED ACCESS // 01</span></header>
-<p class="eyebrow">GENETIC RECONSTRUCTION ARCHIVE</p><h1>OBSERVATION TERMINAL</h1><p class="sub">Two mutations detected. Describe the changes to your geneticist and enter both repair sequences before time expires.</p>
+<p class="eyebrow">GENETIC RECONSTRUCTION ARCHIVE</p><h1>OBSERVATION TERMINAL</h1><p class="sub">Two mutations detected. Identify the two changed traits, ask your Decoder for their repair sequences, and enter both codes before time expires.</p>
 <section id="rulesArea" class="panel" aria-labelledby="rulesHeading" style="margin-bottom:18px">
 <div class="photo-label" id="rulesHeading" style="margin-bottom:14px">GENETICIST RULES</div>
 <ol style="margin:0;padding-left:22px;line-height:1.65">
@@ -18,18 +18,46 @@
 </ol>
 <div style="border-left:3px solid var(--red);padding:12px 14px;margin-top:17px;background:#151715;line-height:1.6"><strong>Your goal:</strong> Identify the changed gene traits and accurately enter both sequences!</div>
 </section>
-<section id="startArea" class="panel intro"><h2>SUBJECTS ARE UNSTABLE</h2><p>You have 03:00 to stabilize as many subjects as possible. Work with your partner. Both repair codes are required to complete each subject.</p><button id="startButton" class="button">BEGIN RECONSTRUCTION // 03:00</button></section>
-<section id="gameArea" class="hidden"><div class="stats"><div class="stat"><div class="stat-label">TIME REMAINING</div><div class="stat-value timer" id="timer">03:00</div></div><div class="stat"><div class="stat-label">SUBJECTS REPAIRED</div><div class="stat-value" id="score">0</div></div><div class="stat"><div class="stat-label">ACTIVE SUBJECT</div><div class="stat-value" id="subjectNumber">001</div></div></div>
+<section id="startArea" class="panel intro"><h2>SUBJECTS ARE UNSTABLE</h2><p>You have 05:00 to stabilize as many subjects as possible. Work with your partner. Both repair codes are required to complete each subject.</p><button id="startButton" class="button">BEGIN RECONSTRUCTION // 05:00</button></section>
+<section id="gameArea" class="hidden"><div class="stats"><div class="stat"><div class="stat-label">TIME REMAINING</div><div class="stat-value timer" id="timer">05:00</div></div><div class="stat"><div class="stat-label">SUBJECTS REPAIRED</div><div class="stat-value" id="score">0</div></div><div class="stat"><div class="stat-label">ACTIVE SUBJECT</div><div class="stat-value" id="subjectNumber">001</div></div></div>
 <div class="photos"><div class="photo-panel"><div class="photo-label">ORIGINAL // BASELINE</div><div class="photo-frame"><img id="originalPhoto" alt="Original subject portrait"><span id="originalMissing" class="missing hidden">BASELINE IMAGE UNAVAILABLE</span></div></div><div class="photo-panel mutated"><div class="photo-label">MUTATED // ACTIVE</div><div class="photo-frame"><img id="mutatedPhoto" alt="Mutated subject portrait"><span id="mutatedMissing" class="missing hidden">MUTATED IMAGE UNAVAILABLE</span></div></div></div>
 <div class="panel repair"><h2>AUTHORIZE GENETIC REPAIR</h2><p class="sub">Enter two DNA sequences. The dash is inserted automatically.</p><form id="repairForm"><div class="fields"><div><label for="code1">REPAIR SEQUENCE 01</label><input id="code1" type="text" maxlength="7" autocomplete="off" spellcheck="false" placeholder="AAA-TTT" required></div><div><label for="code2">REPAIR SEQUENCE 02</label><input id="code2" type="text" maxlength="7" autocomplete="off" spellcheck="false" placeholder="AAA-TTT" required></div></div><button id="repairButton" class="button" type="submit">AUTHORIZE REPAIR</button></form><div id="status" class="status info" aria-live="polite"></div></div></section>
 <section id="endArea" class="panel end hidden"><p class="classified">SESSION TERMINATED</p><h2>RECONSTRUCTION COMPLETE</h2><p class="sub">SUBJECTS SUCCESSFULLY REPAIRED</p><div id="finalScore" class="final">0</div><button id="restartButton" class="button">START NEW SESSION</button></section><footer>CRISPR WHISPR // EXPERIMENTAL GENETIC REPAIR SYSTEM</footer></main>
 <script>
-// Add subjects here once their mutated portraits are ready.
-// Both correct codes can be entered in either order.
+// Repair sequences refer to original traits. Subject 02 uses corrected repair codes, while retaining its previously uploaded image filename.
 const subjects = [
-  {number:'001',original:'faces/face1.jpeg',mutated:'faces/face1_mutated.jpeg',repairs:['GCA-TTG','GAC-TCT']}
+  {number:'001',original:'faces/subject01_original.jpeg',mutated:'faces/subject01_mutated_cga-att-atg-cct.png',repairs:['CGA-ATT','ATG-CCT']},
+  {number:'002',original:'faces/subject02_original.jpeg',mutated:'faces/subject02_mutated_ggt-cca-tgc-acc.png',repairs:['GGT-CAA','TGC-AAC']},
+  {number:'003',original:'faces/subject03_original.jpeg',mutated:'faces/subject03_mutated_aac-gct-tac-gga.png',repairs:['AAC-GCT','TAC-GGA']},
+  {number:'004',original:'faces/subject04_original.jpeg',mutated:'faces/subject04_mutated_ggt-caa-ggg-tct.png',repairs:['GGT-CAA','GGG-TCT']},
+  {number:'005',original:'faces/subject05_original.png',mutated:'faces/subject05_mutated_tac-gga-cga-att.png',repairs:['TAC-GGA','CGA-ATT']},
+  {number:'006',original:'faces/subject06_original.jpeg',mutated:'faces/subject06_mutated_cga-att-ggg-tct.png',repairs:['CGA-ATT','GGG-TCT']},
+  {number:'007',original:'faces/subject07_original.jpeg',mutated:'faces/subject07_mutated_tgc-aac-atg-cct.png',repairs:['TGC-AAC','ATG-CCT']},
+  {number:'008',original:'faces/subject08_original.jpeg',mutated:'faces/subject08_mutated_tac-gga-cta-ggc.png',repairs:['TAC-GGA','CTA-GGC']},
+  {number:'009',original:'faces/subject09_original.jpeg',mutated:'faces/subject09_mutated_gca-ttg-aac-gct.png',repairs:['GCA-TTG','AAC-GCT']},
+  {number:'010',original:'faces/subject10_original.jpeg',mutated:'faces/subject10_mutated_atg-cct-cta-ggc.png',repairs:['ATG-CCT','CTA-GGC']},
+  {number:'011',original:'faces/subject11_original.jpeg',mutated:'faces/subject11_mutated_atg-cct-ggg-tct.png',repairs:['ATG-CCT','GGG-TCT']},
+  {number:'012',original:'faces/subject12_original.jpeg',mutated:'faces/subject12_mutated_cga-att-cta-ggc.png',repairs:['CGA-ATT','CTA-GGC']},
+  {number:'013',original:'faces/subject13_original.jpeg',mutated:'faces/subject13_mutated_tgc-aac-atg-cct.png',repairs:['TGC-AAC','ATG-CCT']},
+  {number:'014',original:'faces/subject14_original.jpeg',mutated:'faces/subject14_mutated_aac-gct-gca-ttg.png',repairs:['AAC-GCT','GCA-TTG']},
+  {number:'015',original:'faces/subject15_original.jpeg',mutated:'faces/subject15_mutated_atg-cct-cta-ggc.png',repairs:['ATG-CCT','CTA-GGC']},
+  {number:'016',original:'faces/subject16_original.jpeg',mutated:'faces/subject16_mutated_tgc-aac-ggg-tct.png',repairs:['TGC-AAC','GGG-TCT']},
+  {number:'017',original:'faces/subject17_original.jpeg',mutated:'faces/subject17_mutated_tgc-aac-atg-cct.png',repairs:['TGC-AAC','ATG-CCT']},
+  {number:'018',original:'faces/subject18_original.jpeg',mutated:'faces/subject18_mutated_cga-att-gca-ttg.png',repairs:['CGA-ATT','GCA-TTG']},
+  {number:'019',original:'faces/subject19_original.jpeg',mutated:'faces/subject19_mutated_cga-att-atg-cct.png',repairs:['CGA-ATT','ATG-CCT']},
+  {number:'020',original:'faces/subject20_original.jpeg',mutated:'faces/subject20_mutated_gca-ttg-ggg-tct.png',repairs:['GCA-TTG','GGG-TCT']},
+  {number:'021',original:'faces/subject21_original.jpeg',mutated:'faces/subject21_mutated_gca-ttg-ggg-tct.png',repairs:['GCA-TTG','GGG-TCT']},
+  {number:'022',original:'faces/subject22_original.jpeg',mutated:'faces/subject22_mutated_cta-ggc-cga-att.png',repairs:['CTA-GGC','CGA-ATT']},
+  {number:'023',original:'faces/subject23_original.jpeg',mutated:'faces/subject23_mutated_tac-gga-tgc-aac.png',repairs:['TAC-GGA','TGC-AAC']},
+  {number:'024',original:'faces/subject24_original.jpeg',mutated:'faces/subject24_mutated_atg-cct-cga-att.png',repairs:['ATG-CCT','CGA-ATT']},
+  {number:'025',original:'faces/subject25_original.jpeg',mutated:'faces/subject25_mutated_ggt-caa-cga-att.png',repairs:['GGT-CAA','CGA-ATT']},
+  {number:'026',original:'faces/subject26_original.jpeg',mutated:'faces/subject26_mutated_cga-att-ggg-tct.png',repairs:['CGA-ATT','GGG-TCT']},
+  {number:'027',original:'faces/subject27_original.jpeg',mutated:'faces/subject27_mutated_atg-cct-tgc-aac.png',repairs:['ATG-CCT','TGC-AAC']},
+  {number:'028',original:'faces/subject28_original.jpeg',mutated:'faces/subject28_mutated_gca-ttg-cga-att.png',repairs:['GCA-TTG','CGA-ATT']},
+  {number:'029',original:'faces/subject29_original.jpeg',mutated:'faces/subject29_mutated_ggt-caa-atg-cct.png',repairs:['GGT-CAA','ATG-CCT']},
+  {number:'030',original:'faces/subject30_original.jpeg',mutated:'faces/subject30_mutated_atg-cct-ggt-caa.png',repairs:['ATG-CCT','GGT-CAA']}
 ];
-const ROUND_SECONDS=180;
+const ROUND_SECONDS=300;
 const $=id=>document.getElementById(id);
 let timeLeft=ROUND_SECONDS,score=0,active=null,timerHandle=null,nextHandle=null,locked=false,queue=[];
 function formatDNA(raw){const letters=String(raw).toUpperCase().replace(/[^ATGC]/g,'').slice(0,6);return letters.length>3?letters.slice(0,3)+'-'+letters.slice(3):letters;}
@@ -41,7 +69,7 @@ function refillQueue(){queue=subjects.map((_,i)=>i);for(let i=queue.length-1;i>0
 function nextSubject(){if(timeLeft<=0)return; if(!queue.length)refillQueue();active=subjects[queue.shift()];locked=false;$('subjectNumber').textContent=active.number;$('code1').value='';$('code2').value='';$('repairButton').disabled=false;setStatus('AWAITING TWO REPAIR SEQUENCES','info');showImage('originalPhoto','originalMissing',active.original);showImage('mutatedPhoto','mutatedMissing',active.mutated);$('code1').focus();}
 function renderTime(){const m=Math.floor(timeLeft/60),s=timeLeft%60;$('timer').textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');}
 function finish(){clearInterval(timerHandle);clearTimeout(nextHandle);timerHandle=null;locked=true;$('gameArea').classList.add('hidden');$('endArea').classList.remove('hidden');$('finalScore').textContent=score;}
-function start(){clearInterval(timerHandle);clearTimeout(nextHandle);timeLeft=ROUND_SECONDS;score=0;active=null;queue=[];locked=false;$('score').textContent='0';renderTime();$('startArea').classList.add('hidden');$('endArea').classList.add('hidden');$('gameArea').classList.remove('hidden');nextSubject();timerHandle=setInterval(()=>{timeLeft--;renderTime();if(timeLeft<=0)finish();},1000);}
+function start(){if(!subjects.length){alert("No subjects configured yet.");return;}clearInterval(timerHandle);clearTimeout(nextHandle);timeLeft=ROUND_SECONDS;score=0;active=null;queue=[];locked=false;$('score').textContent='0';renderTime();$('startArea').classList.add('hidden');$('endArea').classList.add('hidden');$('gameArea').classList.remove('hidden');nextSubject();timerHandle=setInterval(()=>{timeLeft--;renderTime();if(timeLeft<=0)finish();},1000);}
 $('repairForm').addEventListener('submit',event=>{event.preventDefault();if(locked||!active||timeLeft<=0)return;const a=formatDNA($('code1').value),b=formatDNA($('code2').value);if(a.length!==7||b.length!==7){setStatus('ENTER TWO COMPLETE SIX-LETTER SEQUENCES','error');return;}const submitted=[a,b].sort(),expected=[...active.repairs].sort();if(submitted[0]===expected[0]&&submitted[1]===expected[1]){locked=true;score++;$('score').textContent=score;$('repairButton').disabled=true;setStatus('GENETIC REPAIR SUCCESSFUL — SUBJECT STABILIZED','success');nextHandle=setTimeout(nextSubject,1400);}else{setStatus('REPAIR REJECTED — VERIFY BOTH SEQUENCES','error');}});
 $('startButton').addEventListener('click',start);$('restartButton').addEventListener('click',start);
 </script></body></html>
