@@ -5,18 +5,18 @@
 <title>CRISPR WHISPR | Observation Terminal</title>
 <style>
 :root{--black:#141414;--red:#D92D0B;--gray:#A6ABA1;--ivory:#DADBD0;--shadow:#414743}*{box-sizing:border-box}body{margin:0;background:var(--black);color:var(--ivory);font-family:Arial,Helvetica,sans-serif;min-height:100vh;background-image:radial-gradient(ellipse at 50% 0%,#282b28 0%,#141414 62%)}.terminal{max-width:1100px;margin:0 auto;padding:26px 18px 60px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--shadow);padding-bottom:13px}.brand{font-size:14px;font-weight:900;letter-spacing:.27em}.classified{color:var(--red);font:700 11px monospace;letter-spacing:.15em}.eyebrow{color:var(--gray);font:12px monospace;letter-spacing:.14em;margin:26px 0 8px}h1{font-family:Impact,'Arial Narrow',sans-serif;letter-spacing:.08em;font-size:clamp(35px,7vw,72px);font-weight:900;margin:0 0 6px}h2{font-family:Impact,'Arial Narrow',sans-serif;letter-spacing:.07em;font-size:32px;margin:0 0 10px}.sub{color:var(--gray);line-height:1.6;margin:0 0 25px}.panel{border:1px solid var(--shadow);background:#1b1d1b;padding:22px}.intro{max-width:680px;margin:50px auto;text-align:center}.intro p{color:var(--gray);line-height:1.65}.button{background:var(--red);color:white;border:1px solid var(--red);padding:14px 19px;font-weight:900;letter-spacing:.09em;cursor:pointer;font-size:14px}.button:hover{background:#a52209}.button:disabled{opacity:.4;cursor:not-allowed}.stats{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:18px}.stat{flex:1;min-width:125px;border:1px solid var(--shadow);padding:14px 17px;background:#1b1d1b}.stat-label{font:11px monospace;letter-spacing:.1em;color:var(--gray);margin-bottom:6px}.stat-value{font:700 30px Impact,'Arial Narrow',sans-serif;letter-spacing:.06em}.timer{color:var(--red)}.photos{display:grid;grid-template-columns:1fr 1fr;gap:15px}.photo-panel{border:1px solid var(--shadow);background:#1b1d1b;padding:12px}.photo-panel.mutated{border-color:#8e2617}.photo-label{font:700 12px monospace;letter-spacing:.1em;margin:0 0 12px}.mutated .photo-label{color:var(--red)}.photo-frame{position:relative;aspect-ratio:1/1;background:#101110;overflow:hidden;display:flex;align-items:center;justify-content:center}.photo-frame img{width:100%;height:100%;object-fit:cover;display:block}.photo-frame:after{content:'';pointer-events:none;position:absolute;inset:0;background:repeating-linear-gradient(to bottom,transparent 0,transparent 5px,rgba(0,0,0,.12) 6px);opacity:.5}.missing{font:12px monospace;color:var(--gray);padding:20px;text-align:center}.repair{margin-top:20px}.repair h2{font-size:26px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}label{display:block;font:11px monospace;letter-spacing:.12em;color:var(--gray);margin-bottom:8px}input{width:100%;background:#101110;border:1px solid #59605b;color:var(--ivory);padding:14px;font:700 21px monospace;letter-spacing:.12em;text-transform:uppercase;outline:none}input:focus{border-color:var(--red)}.status{min-height:30px;margin:14px 0 0;font:700 13px monospace;line-height:1.5;letter-spacing:.04em}.success{color:#a9c1a2}.error{color:#ff735c}.info{color:var(--gray)}.hidden{display:none!important}.end{text-align:center;margin:50px auto;max-width:650px}.end .final{font:80px Impact,sans-serif;color:var(--red)}footer{margin-top:30px;color:#7d857e;font:10px monospace;letter-spacing:.12em;text-align:center}@media(max-width:600px){.photos{gap:8px}.photo-panel{padding:7px}.photo-label{font-size:10px}.fields{grid-template-columns:1fr}input{font-size:18px}.terminal{padding:15px 10px 35px}}
-/* Experimental baseline observation: 10 seconds visible, then 3-second fade. */
+/* Observation photo fades out after 20 seconds. */
 .baseline-frame{isolation:isolate}
-.baseline-frame #originalPhoto{transition:opacity 3s ease-in-out;opacity:1}
+.baseline-frame #originalPhoto{transition:opacity 7s linear;opacity:1}
 .baseline-frame.reference-lost #originalPhoto{opacity:0}
-.baseline-warning{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:9px;background:#050706;color:#ff7865;font:700 13px monospace;letter-spacing:.08em;opacity:0;transition:opacity 3s ease-in-out;pointer-events:none;padding:12px}
+.baseline-warning{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:9px;background:#050706;color:#87968a;font:12px monospace;letter-spacing:.02em;opacity:0;transition:opacity 7s linear;pointer-events:none;padding:12px}
 .baseline-frame.reference-lost .baseline-warning{opacity:1}
 .baseline-warning small{color:#a6aba1;font-size:11px}
 .observation-notice{margin:10px 0 0;font:700 12px/1.5 monospace;color:#d5b77a;letter-spacing:.04em}
 </style>
 </head>
 <body><main class="terminal"><header class="top"><span class="brand">CRISPR WHISPR</span><span class="classified">RESTRICTED ACCESS // 01</span></header>
-<p class="eyebrow">GENETIC RECONSTRUCTION ARCHIVE</p><h1>OBSERVATION TERMINAL</h1><p class="sub">Two mutations detected. You have 10 seconds to study the original before it fades to black. Tell your Decoder what the subject looked like BEFORE mutation. Retrieve both repair sequences before time runs out.</p>
+<p class="eyebrow">GENETIC RECONSTRUCTION ARCHIVE</p><h1>OBSERVATION TERMINAL</h1><p class="sub">Two mutations detected. You have 20 seconds to study the original photo before the reference disappears. Tell your Decoder what the subject looked like BEFORE mutation. Retrieve both repair sequences before time runs out.</p>
 <section id="rulesArea" class="panel" aria-labelledby="rulesHeading" style="margin-bottom:18px">
 <div class="photo-label" id="rulesHeading" style="margin-bottom:14px">GENETICIST RULES</div>
 <div style="border:2px solid var(--red);background:#251815;padding:15px;margin-bottom:15px;line-height:1.65">
@@ -26,7 +26,7 @@ The MUTATED photo shows what went wrong. The ORIGINAL photo shows what must be r
 <span style="color:#b9dcb0">RIGHT: “Restore brown eyes.”</span>
 </div>
 <ol style="margin:0;padding-left:22px;line-height:1.65">
-<li style="padding-left:5px;margin-bottom:10px"><strong>Phase 1 — Compare.</strong> You have 10 seconds to study the ORIGINAL and MUTATED photos. The ORIGINAL then fades to black over 3 seconds.</li>
+<li style="padding-left:5px;margin-bottom:10px"><strong>Phase 1 — Compare.</strong> You have 20 seconds to compare both photos. The original image then fades out slowly.</li>
 <li style="padding-left:5px;margin-bottom:10px"><strong>Phase 1 — Communicate.</strong> Describe the TWO ORIGINAL features to restore. <strong>Do not describe the mutated features to your Decoder.</strong></li>
 <li style="padding-left:5px;margin-bottom:10px"><strong>Phase 2 — Receive.</strong> Your Decoder searches gene codes and tells you the TWO repair sequences for those original features.</li>
 <li style="padding-left:5px"><strong>Phase 2 — Enter.</strong> Enter both repair sequences to stabilize the subject.</li>
@@ -36,8 +36,8 @@ The MUTATED photo shows what went wrong. The ORIGINAL photo shows what must be r
 <section id="startArea" class="panel intro"><h2>SUBJECTS ARE UNSTABLE</h2><p>You have 07:00 to stabilize as many subjects as possible. Work with your partner. Both repair codes are required to complete each subject.</p><button id="startButton" class="button">BEGIN RECONSTRUCTION // 07:00</button></section>
 <section id="gameArea" class="hidden"><div class="stats"><div class="stat"><div class="stat-label">TIME REMAINING</div><div class="stat-value timer" id="timer">07:00</div></div><div class="stat"><div class="stat-label">SUBJECTS REPAIRED</div><div class="stat-value" id="score">0</div></div><div class="stat"><div class="stat-label">ACTIVE SUBJECT</div><div class="stat-value" id="subjectNumber">001</div></div></div>
 <div style="border-left:4px solid var(--red);background:#251815;padding:12px 16px;margin:0 0 15px;font:700 13px/1.65 monospace;letter-spacing:.025em" role="note"><span style="color:#ff7865">REPORT THE ORIGINAL FEATURES!</span> MUTATED = what went wrong. ORIGINAL = what your Decoder needs to restore.<div style="color:#b9dcb0;margin-top:5px">Example: mutated white eyes + original brown eyes → tell the Decoder “BROWN EYES.”</div></div>
-<div class="photos"><div class="photo-panel"><div class="photo-label">ORIGINAL // BASELINE</div><div class="photo-frame baseline-frame" id="baselineFrame"><img id="originalPhoto" alt="Original subject portrait"><div class="baseline-warning" aria-hidden="true">REFERENCE IMAGE LOST<small>RECONSTRUCT FROM MEMORY</small></div><span id="originalMissing" class="missing hidden">BASELINE IMAGE UNAVAILABLE</span></div></div><div class="photo-panel mutated"><div class="photo-label">MUTATED // ACTIVE</div><div class="photo-frame"><img id="mutatedPhoto" alt="Mutated subject portrait"><span id="mutatedMissing" class="missing hidden">MUTATED IMAGE UNAVAILABLE</span></div></div></div>
-<div class="observation-notice" id="observationNotice" aria-live="polite">REFERENCE IMAGE AVAILABLE: 10 SECONDS</div><div class="panel repair"><h2>AUTHORIZE GENETIC REPAIR</h2><p class="sub">Enter two DNA sequences. The dash is inserted automatically.</p><form id="repairForm"><div class="fields"><div><label for="code1">REPAIR SEQUENCE 01</label><input id="code1" type="text" maxlength="7" autocomplete="off" spellcheck="false" placeholder="AAA-TTT" required></div><div><label for="code2">REPAIR SEQUENCE 02</label><input id="code2" type="text" maxlength="7" autocomplete="off" spellcheck="false" placeholder="AAA-TTT" required></div></div><button id="repairButton" class="button" type="submit">AUTHORIZE REPAIR</button></form><div id="status" class="status info" aria-live="polite"></div></div></section>
+<div class="photos"><div class="photo-panel"><div class="photo-label">ORIGINAL // BASELINE</div><div class="photo-frame baseline-frame" id="baselineFrame"><img id="originalPhoto" alt="Original subject portrait"><div class="baseline-warning" aria-hidden="true">REFERENCE LOST<small>RECONSTRUCT FROM MEMORY</small></div><span id="originalMissing" class="missing hidden">BASELINE IMAGE UNAVAILABLE</span></div></div><div class="photo-panel mutated"><div class="photo-label">MUTATED // ACTIVE</div><div class="photo-frame"><img id="mutatedPhoto" alt="Mutated subject portrait"><span id="mutatedMissing" class="missing hidden">MUTATED IMAGE UNAVAILABLE</span></div></div></div>
+<div class="observation-notice" id="observationNotice" aria-live="polite">ORIGINAL AVAILABLE: 10 SECONDS</div><div class="panel repair"><h2>AUTHORIZE GENETIC REPAIR</h2><p class="sub">Enter two DNA sequences. The dash is inserted automatically.</p><form id="repairForm"><div class="fields"><div><label for="code1">REPAIR SEQUENCE 01</label><input id="code1" type="text" maxlength="7" autocomplete="off" spellcheck="false" placeholder="AAA-TTT" required></div><div><label for="code2">REPAIR SEQUENCE 02</label><input id="code2" type="text" maxlength="7" autocomplete="off" spellcheck="false" placeholder="AAA-TTT" required></div></div><button id="repairButton" class="button" type="submit">AUTHORIZE REPAIR</button></form><div id="status" class="status info" aria-live="polite"></div></div></section>
 <section id="endArea" class="panel end hidden"><p class="classified">SESSION TERMINATED</p><h2>RECONSTRUCTION COMPLETE</h2><p class="sub">SUBJECTS SUCCESSFULLY REPAIRED</p><div id="finalScore" class="final">0</div><button id="restartButton" class="button">START NEW SESSION</button></section><footer>CRISPR WHISPR // EXPERIMENTAL GENETIC REPAIR SYSTEM</footer></main>
 <script>
 // Repair sequences refer to original traits. Subject 02 uses corrected repair codes, while retaining its previously uploaded image filename.
@@ -74,8 +74,8 @@ const subjects = [
   {number:'030',original:'faces/subject30_original.jpeg',mutated:'faces/subject30_mutated_atg-cct-ggt-caa.png',repairs:['ATG-CCT','GGT-CAA']}
 ];
 const ROUND_SECONDS=420;
-const OBSERVATION_SECONDS=10;
-const FADE_SECONDS=3;
+const OBSERVATION_SECONDS=20;
+const FADE_SECONDS=7;
 const $=id=>document.getElementById(id);
 let timeLeft=ROUND_SECONDS,score=0,active=null,timerHandle=null,nextHandle=null,observationHandle=null,observationTick=null,locked=false,queue=[];
 function formatDNA(raw){const letters=String(raw).toUpperCase().replace(/[^ATGC]/g,'').slice(0,6);return letters.length>3?letters.slice(0,3)+'-'+letters.slice(3):letters;}
@@ -95,15 +95,15 @@ function beginObservation(){
   void frame.offsetWidth;
   img.style.transition='';warning.style.transition='';
   let remaining=OBSERVATION_SECONDS;
-  $('observationNotice').textContent='REFERENCE IMAGE AVAILABLE: '+remaining+' SECONDS';
+  $('observationNotice').textContent='ORIGINAL AVAILABLE: '+remaining+' SECONDS';
   observationTick=setInterval(()=>{
     remaining--;
-    if(remaining>0){$('observationNotice').textContent='REFERENCE IMAGE AVAILABLE: '+remaining+' SECONDS';}
+    if(remaining>0){$('observationNotice').textContent='ORIGINAL AVAILABLE: '+remaining+' SECONDS';}
     else{
       clearInterval(observationTick);observationTick=null;
       frame.classList.add('reference-lost');
-      $('observationNotice').textContent='REFERENCE IMAGE DEGRADING...';
-      observationHandle=setTimeout(()=>{$('observationNotice').textContent='REFERENCE IMAGE LOST — RECONSTRUCT FROM MEMORY';},FADE_SECONDS*1000);
+      $('observationNotice').textContent='REFERENCE FADING...';
+      observationHandle=setTimeout(()=>{$('observationNotice').textContent='REFERENCE LOST';},FADE_SECONDS*1000);
     }
   },1000);
 }
